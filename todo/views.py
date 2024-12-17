@@ -23,6 +23,8 @@ def home(request):
     # return HttpResponse("Hello World")
 
 def contact(request):
+    return render(request,'contact.html')
+
     return HttpResponse("This is contact page")
 def about(request):
     return HttpResponse("This is about page")
