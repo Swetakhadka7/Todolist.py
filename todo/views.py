@@ -1,5 +1,5 @@
 from django.shortcuts import render,HttpResponse
-
+from .models import Todolist 
 # Create your views here.
 def home(request):
     person =[
@@ -30,3 +30,21 @@ def about(request):
     return HttpResponse("This is about page")
 def welcome(request):
     return HttpResponse("This is welcome page")
+
+def todo(request):
+   tasks = Todolist.objects.all()
+   total_task = tasks.count()
+   total_complete = tasks.filter(status = True).count()
+   total_incomplete = tasks.filter(status = False).count()
+   context = {
+      "tasks":tasks,
+      "total_task" : total_task,
+      "total_complete" : total_complete,
+      "total_incomplete" : total_incomplete
+   }
+   return render(request,'todolist.html', context)
+
+def todo_create(request):
+    if request.method == "POST":
+        return HttpResponse("Data Received")
+    return render(request,'create.html')
