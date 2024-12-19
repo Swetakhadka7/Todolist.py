@@ -7,5 +7,6 @@ urlpatterns = [
     # path('about/',about),
     # path('welcome/',welcome),
     path('todo/', todo),
-    path('todo/create',todo_create)
+    path('todo/create',todo_create),
+    path('todo/<pk>',Mark_completed),
 ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render,HttpResponse, redirect
 from .models import Todolist 
 # Create your views here.
 def home(request):
@@ -46,5 +46,20 @@ def todo(request):
 
 def todo_create(request):
     if request.method == "POST":
-        return HttpResponse("Data Received")
+        title = request.POST.get('title')
+        description =request.POST.get ('description')
+        if title =="" and description =="":
+            context = {"error":"Both fields are empty"}
+            return render (request, 'create.html',context)
+            # return HttpResponse("Both fileds are empty")
+            Todolist.objects.create(title= title, description= description)
+        return redirect("/todo")
+        # return HttpResponse(description)
+        return HttpResponse(title)
     return render(request,'create.html')
+
+def Mark_completed(request,pk):
+    task = Todolist.objects.get(pk = pk)
+    task.status = True
+    task.save()
+    return redirect('/todo')
