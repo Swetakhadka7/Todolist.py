@@ -9,4 +9,6 @@ urlpatterns = [
     path('todo/', todo),
     path('todo/create',todo_create),
     path('todo/<pk>',Mark_completed),
+    path('todo/<pk>/update', update_task),
+    path('todo/<pk>/delete',Delete_task),
 ]

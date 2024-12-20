@@ -52,14 +52,45 @@ def todo_create(request):
             context = {"error":"Both fields are empty"}
             return render (request, 'create.html',context)
             # return HttpResponse("Both fileds are empty")
-            Todolist.objects.create(title= title, description= description)
+        Todolist.objects.create(title= title, description= description)
         return redirect("/todo")
         # return HttpResponse(description)
         return HttpResponse(title)
     return render(request,'create.html')
 
+def update_task(request, pk):
+    task = Todolist.objects.get(pk=pk)
+    if request.method == "POST":
+    #     # Update the task with form data
+        task.title = request.POST.get('title')
+        task.description = request.POST.get('description')
+        task.save()
+        return redirect('/todo')  # Redirect only after saving the task
+    
+    # If not a POST request, render the form with the current task details
+    context = {
+        "task": task
+    }
+    return render(request, "update.html",context)
+
+    
 def Mark_completed(request,pk):
     task = Todolist.objects.get(pk = pk)
     task.status = True
     task.save()
     return redirect('/todo')
+
+def Delete_task(request, pk):
+    print("Delete task view called")  # Debug message
+    task = Todolist.objects.get(pk=pk)
+    if request.method == "POST":
+        print("POST request received")  # Debug message
+        task.delete()
+        print("Task deleted")  # Debug message
+        return redirect('/todo')
+
+    context = {"task": task}
+    return render(request, 'delete.html', context)
+
+
+    
